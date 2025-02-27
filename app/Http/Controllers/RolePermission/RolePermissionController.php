@@ -4,7 +4,8 @@ namespace App\Http\Controllers\RolePermission;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Permission;
+// use App\Models\Permission;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
 
 class RolePermissionController extends Controller
@@ -14,7 +15,8 @@ class RolePermissionController extends Controller
      */
     public function index()
     {
-        //
+        $permissions = Permission::all();
+        return view('permission.index', compact('permissions'));
     }
 
     /**
@@ -30,22 +32,41 @@ class RolePermissionController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = validator::make($request->all(), [
             'name' => 'required|unique:permissions,name|max:255',
         ]);
 
-        if ($validator->fails()) {
+        if ($validator->passes()) {
 
+            Permission::create([
+                'name' => $request->name,
+                'guard_name' => 'web',
+            ]);
+
+            return redirect()->route('permission.index')->with('success', 'Permission created successfully');
+        } else {
             return redirect()->route('permission.create')->withInput()->withErrors($validator);
         }
+    }
 
-        Permission::create([
-            'name' => $request->name,
-            'guard_name' => 'web',
+
+    /* public function makeandstore(Request $request){
+        $validator = validator ::make($request->all(), [
+            'name' => 'required|unique:permissions,name|max:255',
         ]);
 
-        return redirect()->route('permission.index');
-    }
+        if ($validator->passes()){
+
+            Permission::create([
+                'name' => $request->name,
+                'guard_name' => 'web',
+            ]);
+
+            return redirect()->route('permission.index')->with('success', 'Permission created successfully');
+        }else{
+            return redirect()->route('permisson.create')->withInput()->withErrors($validator);
+        }
+    } */
 
     /**
      * Display the specified resource.
