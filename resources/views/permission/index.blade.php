@@ -22,21 +22,36 @@
                         <thead>
                             <tr class="bg-gray-100 dark:bg-gray-700">
                                 <th class="w-1/2 px-4 py-2 border">Permission Name</th>
+                                <th class="w-1/2 px-4 py-2 border">created at</th>
+                                <th class="w-1/2 px-4 py-2 border">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($permissions as $permission)
-                                <tr>
-                                    <td class="border px-4 py-2">{{ $permission->name }}</td>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="2" class="border px-4 py-2 text-center text-red-500">
-                                        No permissions found
-                                    </td>
-                                </tr>
-                            @endforelse
+                            @if ($permissions->isNotEmpty())
+                                @foreach ($permissions as $permission)
+                                    <tr>
+                                        <td class="px-4 py-2 border">{{ $permission->name }}</td>
+                                        <td class="px-4 py-2 align-center border">{{ \Carbon\Carbon::parse($permission->created_at)->format('d M Y') }}</td>
+
+                                        {{-- <td class="px-4 py-2 border">
+                                            <a href="{{ route('permission.edit', $permission->id) }}"
+                                                class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        </td> --}}
+                                        <td class="px-4 py-2 border text-center">
+                                            <a href="#"
+                                                class="px-4 py-2 gap-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+                                                Edit
+                                            </a>
+                                            <a href="#"
+                                                class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+                                                Delete
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                            @endif
+
                         </tbody>
                     </table>
 
