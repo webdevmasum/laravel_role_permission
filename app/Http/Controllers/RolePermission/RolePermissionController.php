@@ -15,7 +15,7 @@ class RolePermissionController extends Controller
      */
     public function index()
     {
-        $permissions = Permission::all();
+        $permissions = Permission::orderBy('created_at', 'DESC')->paginate(5);
         return view('permission.index', compact('permissions'));
     }
 
@@ -81,7 +81,8 @@ class RolePermissionController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $permission = Permission::findOrFail($id);
+        return view('permission.edit', compact('permission'));
     }
 
     /**
@@ -89,7 +90,21 @@ class RolePermissionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $permission = Permission::findOrFail($id);
+
+        $validator = validator::make($request->all(), [
+            'name' => 'required|unique:permissions,name|max:255',
+        ]);
+
+        if ($validator->passes()) {
+
+            $permission->name = $request->name;
+            $permission->save();
+
+            return redirect()->route('permission.index')->with('success', 'Permission updated successfully');
+        } else {
+            return redirect()->route('permission.edit, $id')->withInput()->withErrors($validator);
+        }
     }
 
     /**

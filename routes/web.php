@@ -23,7 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/permission', [RolePermissionController::class, 'index'])->name('permission.index');
     Route::get('/permission/create', [RolePermissionController::class, 'create'])->name('permission.create');
     Route::post('/permission', [RolePermissionController::class, 'store'])->name('permission.store');
-    Route::post('/permission', [RolePermissionController::class, 'edit'])->name('permission.edit');
+    Route::get('/permission/{id}', [RolePermissionController::class, 'edit'])->name('permission.edit');
+    Route::put('/permission/{id}', [RolePermissionController::class, 'update'])->name('permission.update');
 });
 
 require __DIR__ . '/auth.php';

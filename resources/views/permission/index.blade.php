@@ -31,29 +31,32 @@
                                 @foreach ($permissions as $permission)
                                     <tr>
                                         <td class="px-4 py-2 border">{{ $permission->name }}</td>
-                                        <td class="px-4 py-2 align-center border">{{ \Carbon\Carbon::parse($permission->created_at)->format('d M Y') }}</td>
+                                        <td class="px-4 py-2 align-center border">
+                                            {{ \Carbon\Carbon::parse($permission->created_at)->format('d M Y') }}</td>
 
                                         {{-- <td class="px-4 py-2 border">
                                             <a href="{{ route('permission.edit', $permission->id) }}"
                                                 class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                         </td> --}}
                                         <td class="px-4 py-2 border text-center">
-                                            <a href="#"
+                                            <a href="{{ route('permission.edit', $permission->id) }}"
                                                 class="px-4 py-2 gap-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
                                                 Edit
                                             </a>
                                             <a href="#"
-                                                class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+                                                class="ml-2 px-4 py-2 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
                                                 Delete
                                             </a>
                                         </td>
-
                                     </tr>
                                 @endforeach
                             @endif
-
                         </tbody>
                     </table>
+
+                    <div class="mt-4">
+                        {{ $permissions->links() }}
+                    </div>
 
                 </div>
             </div>
