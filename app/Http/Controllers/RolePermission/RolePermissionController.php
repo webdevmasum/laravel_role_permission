@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\RolePermission;
 
+use session;
 use Illuminate\Http\Request;
+use App\Models\Permission;
 use App\Http\Controllers\Controller;
-// use App\Models\Permission;
-use Spatie\Permission\Models\Permission;
+// use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
 
 class RolePermissionController extends Controller
@@ -110,8 +111,16 @@ class RolePermissionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $permission = Permission::find($id);
+
+        if (!$permission) {
+            return response()->json(['success' => false, 'message' => 'Permission not found']);
+        }
+
+        $permission->delete();
+
+        return response()->json(['success' => true, 'message' => 'Permission deleted successfully']);
     }
 }

@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/permission', [RolePermissionController::class, 'store'])->name('permission.store');
     Route::get('/permission/{id}', [RolePermissionController::class, 'edit'])->name('permission.edit');
     Route::put('/permission/{id}', [RolePermissionController::class, 'update'])->name('permission.update');
+    Route::delete('/permission/{id}', [RolePermissionController::class, 'destroy'])->name('permission.destroy');
 });
 
 require __DIR__ . '/auth.php';
